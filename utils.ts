@@ -59,3 +59,16 @@ export function activateFeed(router: Router, feeder: Feeder) {
     ctx.response.headers = hdr
   })
 }
+
+export function proxyFeed(router: Router, path: string, url: string) {
+  router.get(`${path}`, async (ctx: any) => {
+    const resp = await fetch(url)
+    ctx.response.body = await resp.text()
+    const hdr = new Headers()
+    const originalCT = resp.headers.get('Content-Type')
+    if (originalCT) {
+      hdr.set('Content-Type', originalCT)
+    }
+    ctx.response.headers = hdr
+  })
+}

@@ -1,10 +1,13 @@
 import { Application, Router } from './deps/oak.ts'
-import feeds from './feed/index.ts'
-import { activateFeed, createJsonResponse } from './utils.ts'
+import feeds, { Proxies } from './feed/index.ts'
+import { activateFeed, createJsonResponse, proxyFeed } from './utils.ts'
 
 const router = new Router()
 for (const feed of feeds) {
   activateFeed(router, feed)
+}
+for (const [path, url] of Object.entries(Proxies)) {
+  proxyFeed(router, path, url)
 }
 router.get('/', (ctx) => {
   const meta = {

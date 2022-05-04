@@ -6,4 +6,8 @@ import sp_idolypride from './sp_idolypride.ts'
 
 const _: Feeder[] = [sample, idolypride, sp_denonbu, sp_idolypride]
 
+export const Proxies = {
+  '/cloudflare': 'https://blog.cloudflare.com/rss/',
+}
+
 export default _
