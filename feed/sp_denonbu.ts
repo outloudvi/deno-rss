@@ -17,7 +17,7 @@ const _: Feeder = {
     const feed = new Feed({
       id,
       title,
-      copyright: 'Copyright (c) Spotify & IDOLY PRIDE',
+      copyright: 'Copyright (c) Spotify & Denonbu',
       link: `https://open.spotify.com/playlist/${PLAYLIST_ID}`,
     })
     await buildSpotifyPlaylist(PLAYLIST_ID, feed)
