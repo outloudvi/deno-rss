@@ -8,6 +8,6 @@ export async function getPublicSpotifyToken(url: string): Promise<string> {
     },
   }).then((x) => x.text())
   const $ = cheerio.load(html)
-  const json = JSON.parse($('script#config').html()!)
+  const json = JSON.parse($('script#session').html()!)
   return json.accessToken
 }
