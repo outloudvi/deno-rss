@@ -13,6 +13,7 @@ const ARTIST_IDS = [
   '6k9TBCxyr4bXwZ8Y21Kwn1', // TAiLE
   '31zCA3lKnObwtGBbDNnNAt', // LN
   '1qu8WIATG5KzozEzjmDkx7', // Hoshimi
+  '4VCkdDHY5EnvQr1LYaU8Yi', // 3X
 
   // SunnyP individuals
   '4OkbwGMGFV6ChUxL14luUu', // Sakura
