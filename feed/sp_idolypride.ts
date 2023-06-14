@@ -22,6 +22,7 @@ const ARTIST_IDS = [
   '1puTfLWQAG8GywlnbfAqqf', // Rei
   // LN individuals
   '0iM1XJj7tUAXVDTafkUWye', // Rio
+  '5EZfgiTJTETidiUp80IrDv', // Aoi
 ]
 
 const _: Feeder = {
