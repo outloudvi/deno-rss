@@ -17,12 +17,22 @@ const ARTIST_IDS = [
 
   // SunnyP individuals
   '4OkbwGMGFV6ChUxL14luUu', // Sakura
+  '3b9DZqVwDJMf1EZMBuwCfS', // Shizuku
   // Tsuki individuals
   '5aNqOgJHJBWVzP4lrNaxj0', // Kotono
   '1puTfLWQAG8GywlnbfAqqf', // Rei
+  // TAiLE individuals
+  '6pza5RAOaUduGRWBygnakK', // Rui
+  '1TB1EtuGKM4i43x00QmOAY', // Sumire
+  '095iRSpFVBYWsZsdcu2QEg', // Yu
   // LN individuals
   '0iM1XJj7tUAXVDTafkUWye', // Rio
   '5EZfgiTJTETidiUp80IrDv', // Aoi
+  '6Iif6YKWM1m3OYhCuY5lub', // Kokoro
+  '4kCRcANl6XK6R5kzGAUSah', // Ai
+  // 3X individuals
+  '42dGlJ4TYrtWXVLc8b1s8l', // fran
+  '28svFZj099uC7EHHkkU3R3', // kana
 ]
 
 const _: Feeder = {
