@@ -1,4 +1,4 @@
-import Feed from './deps/feed.ts'
+import { Feed } from 'feed'
 
 export interface Feeder {
   title: string

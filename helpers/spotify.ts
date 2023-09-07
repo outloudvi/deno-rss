@@ -1,5 +1,5 @@
 import { USER_AGENT } from '../const.ts'
-import cheerio from '../deps/cheerio.ts'
+import * as cheerio from 'cheerio'
 
 export async function getPublicSpotifyToken(url: string): Promise<string> {
   const html = await fetch(url, {

@@ -1,5 +1,5 @@
 import { USER_AGENT } from '../const.ts'
-import Feed from '../deps/feed.ts'
+import { Feed } from 'feed'
 import { getPublicSpotifyToken } from '../helpers/spotify.ts'
 
 export async function buildSpotifyPlaylist(playlistId: string, feed: Feed) {

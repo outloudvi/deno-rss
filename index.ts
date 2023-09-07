@@ -1,4 +1,4 @@
-import { Application, Router } from './deps/oak.ts'
+import { Application, Router } from 'oak'
 import feeds, { Proxies } from './feed/index.ts'
 import { activateFeed, createJsonResponse, proxyFeed } from './utils.ts'
 

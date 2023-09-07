@@ -1,5 +1,5 @@
-import cheerio from '../deps/cheerio.ts'
-import Feed from '../deps/feed.ts'
+import * as cheerio from 'cheerio'
+import { Feed } from 'feed'
 import { Feeder } from '../types.ts'
 import dayjs from 'https://cdn.skypack.dev/dayjs@1.10.7?dts'
 import dayjsUtc from 'https://cdn.skypack.dev/dayjs@1.10.7/plugin/utc?dts'

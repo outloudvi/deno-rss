@@ -1,0 +1,7 @@
+{
+    "imports": {
+        "oak": "https://deno.land/x/oak@v12.6.1/mod.ts",
+        "cheerio": "https://esm.sh/cheerio@1.0.0-rc.12",
+        "feed": "https://esm.sh/feed@4.2.2"
+    }
+}

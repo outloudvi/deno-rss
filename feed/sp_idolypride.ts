@@ -1,4 +1,4 @@
-import Feed from '../deps/feed.ts'
+import { Feed } from 'feed'
 import { Feeder } from '../types.ts'
 import { buildSpotifyArtistAlbums } from './_spotify.ts'
 

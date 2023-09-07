@@ -1,4 +1,4 @@
-import { Router } from './deps/oak.ts'
+import { Router } from 'oak'
 import { Feeder } from './types.ts'
 
 export function createJsonResponse(ctx: any, obj: any) {
