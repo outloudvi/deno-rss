@@ -15,12 +15,21 @@ const ARTIST_IDS = [
   '1qu8WIATG5KzozEzjmDkx7', // Hoshimi
   '4VCkdDHY5EnvQr1LYaU8Yi', // 3X
 
+  // Special groups
+  '5Iar32JdumnOgLlFkvV4AQ', // Pajapa
+
   // SunnyP individuals
   '4OkbwGMGFV6ChUxL14luUu', // Sakura
   '3b9DZqVwDJMf1EZMBuwCfS', // Shizuku
+  '4quDTocMYykJJdlNel42CN', // Haruko
+  '404mRNpw6IAAOkZEQelG7h', // Chisa
+  '1puTfLWQAG8GywlnbfAqqf', // Rei
   // Tsuki individuals
   '5aNqOgJHJBWVzP4lrNaxj0', // Kotono
-  '1puTfLWQAG8GywlnbfAqqf', // Rei
+  '6HE4UPwPeNGPIAWwJrUqNo', // Mei
+  '3AY3Od0q6MxEEtQz8aL47j', // Saki
+  '1QYe6G41g1UUzmTYKftAYW', // Nagisa
+  '1TOlJfpMGOsydkG3P0IrZH', // Suzu
   // TAiLE individuals
   '6pza5RAOaUduGRWBygnakK', // Rui
   '1TB1EtuGKM4i43x00QmOAY', // Sumire
