@@ -1,5 +1,6 @@
 import { USER_AGENT } from '../const.ts'
 import { Feed } from 'feed'
+import uniqBy from 'lodash/uniqBy'
 import { getPublicSpotifyToken } from '../helpers/spotify.ts'
 
 export async function buildSpotifyPlaylist(playlistId: string, feed: Feed) {
@@ -73,14 +74,10 @@ export async function buildSpotifyArtistAlbums(
     artistIds.map((i) => getArtistAlbums(i, SPOTIFY_APIKEY))
   )
 
-  console.log(items)
-
-  const allAlbums = ([] as any[])
-    .concat(...items)
-    .sort(
-      (a, b) =>
-        Number(new Date(b.release_date)) - Number(new Date(a.release_date))
-    )
+  const allAlbums = uniqBy(([] as any[]).concat(...items), 'id').sort(
+    (a: any, b: any) =>
+      Number(new Date(b.release_date)) - Number(new Date(a.release_date))
+  )
 
   for (const i of allAlbums) {
     feed.addItem({
