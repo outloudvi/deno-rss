@@ -72,3 +72,7 @@ export function proxyFeed(router: Router, path: string, url: string) {
     ctx.response.headers = hdr
   })
 }
+
+export function pickOneFromSrcSet(srcSet: string): string {
+  return srcSet.split(',')[0].split(' ')[0]
+}
