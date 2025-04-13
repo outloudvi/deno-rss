@@ -1,9 +1,9 @@
 import * as cheerio from 'cheerio'
 import { Feed } from 'feed'
 import { Feeder } from '../types.ts'
-import dayjs from 'https://cdn.skypack.dev/dayjs@1.10.7?dts'
-import dayjsUtc from 'https://cdn.skypack.dev/dayjs@1.10.7/plugin/utc?dts'
-import dayjsCPF from 'https://cdn.skypack.dev/dayjs@1.10.7/plugin/customParseFormat?dts'
+import dayjs from 'dayjs'
+import dayjsUtc from 'dayjs/plugin/utc.js'
+import dayjsCPF from 'dayjs/plugin/customParseFormat.js'
 import { USER_AGENT } from '../const.ts'
 
 dayjs.extend(dayjsUtc)
@@ -20,7 +20,6 @@ const _: Feeder = {
   title,
   path,
   description,
-  // deno-lint-ignore require-await
   getFeed: async () => {
     const feed = new Feed({
       id,
@@ -39,8 +38,10 @@ const _: Feeder = {
     links.map((_, item) => {
       const imagePath = $('.lists__list__img', item)
         .css('background-image')
-        .replace(/^url\(["']/, '')
-        .replace(/["']\)$/, '')
+        ?.replace(/^url\(["']/, '')
+        ?.replace(/["']\)$/, '')
+      if (!imagePath) return
+
       const imageUrl = new URL(imagePath, baseurl)
       const linkPath = $(item).attr('href')!
       const linkUrl = new URL(linkPath, baseurl)
