@@ -45,7 +45,7 @@ const _: Feeder = {
       feed.addItem({
         title: $('h3 a', item).text(),
         // convert to JST
-        date: date.toDate(),
+        date: date.isValid() ? date.toDate() : new Date(),
         category: $('ul li', item)
           .map((_, x) => ({
             name: $('span', x).text()!,
