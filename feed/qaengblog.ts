@@ -1,14 +1,9 @@
 import * as cheerio from 'cheerio'
 import { Feed } from 'feed'
 import { Feeder } from '../types.ts'
-import dayjs from 'https://cdn.skypack.dev/dayjs@1.10.7?dts'
-import dayjsUtc from 'https://cdn.skypack.dev/dayjs@1.10.7/plugin/utc?dts'
-import dayjsCPF from 'https://cdn.skypack.dev/dayjs@1.10.7/plugin/customParseFormat?dts'
+import dayjs from '../helpers/dayjs.ts'
 import { USER_AGENT } from '../const.ts'
 import { pickOneFromSrcSet } from '../utils.ts'
-
-dayjs.extend(dayjsUtc)
-dayjs.extend(dayjsCPF)
 
 const id = 'qa-eng-blog'
 const title = 'QualiArts Engineering Blog'

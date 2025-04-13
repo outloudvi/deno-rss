@@ -1,13 +1,7 @@
 import * as cheerio from 'cheerio'
 import { Feed } from 'feed'
 import { Feeder } from '../types.ts'
-import dayjs from 'https://cdn.skypack.dev/dayjs@1.10.7?dts'
-import dayjsUtc from 'https://cdn.skypack.dev/dayjs@1.10.7/plugin/utc?dts'
-import dayjsCPF from 'https://cdn.skypack.dev/dayjs@1.10.7/plugin/customParseFormat?dts'
 import { USER_AGENT } from '../const.ts'
-
-dayjs.extend(dayjsUtc)
-dayjs.extend(dayjsCPF)
 
 const baseurl = 'https://dbrgn.ch/stories-from-the-internet.html'
 

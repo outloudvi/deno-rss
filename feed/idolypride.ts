@@ -1,13 +1,8 @@
 import * as cheerio from 'cheerio'
 import { Feed } from 'feed'
 import { Feeder } from '../types.ts'
-import dayjs from 'dayjs'
-import dayjsUtc from 'dayjs/plugin/utc.js'
-import dayjsCPF from 'dayjs/plugin/customParseFormat.js'
+import dayjs from '../helpers/dayjs.ts'
 import { USER_AGENT } from '../const.ts'
-
-dayjs.extend(dayjsUtc)
-dayjs.extend(dayjsCPF)
 
 const id = 'idoly-pride-news'
 const title = 'IDOLY PRIDE News'
