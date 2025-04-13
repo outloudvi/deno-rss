@@ -19,6 +19,7 @@ const _: Feeder = {
       id,
       title,
       link: baseurl,
+      copyright: 'dbrgn.ch',
     })
 
     const html = await fetch(baseurl, {
