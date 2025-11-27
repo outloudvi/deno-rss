@@ -55,7 +55,7 @@ export function getSanityToken(): Promise<string> {
   const sanityStatement = getSanityStatement()
   const base = new URL(`${R2('open')}/api/token`)
   for (const [key, val] of Object.entries(sanityStatement)) {
-    base.searchParams.set(key, val)
+    base.searchParams.set(key, String(val))
   }
   return fetch(base)
     .then((x) => x.json())
