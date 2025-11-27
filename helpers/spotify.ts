@@ -3,26 +3,19 @@
 import { Buffer } from 'node:buffer'
 import { TOTP, Secret } from 'otpauth'
 import { Feed } from 'feed'
-import { USER_AGENT } from '../const.ts'
 
 const { fromHex } = Secret
 
 const R1 = (x: string) => x + 'ify'
 const R2 = (x: string) => `https://${x}.${R1('spot')}.com`
-const CLIENT_VERSION = '1.2.62.403.g450c6e1e'
+const CLIENT_VERSION = '1.2.78.309.g316d2f2f'
 const REFERER = `${R2('open')}/`
 const MIKO = 35
 const MI = 3
 const KO = 5
-const BUTTER_CUP = [
-  [[2, 2, 13759], 56],
-  [[2, 31, 739], 33],
-  [[2, 3, 23, 353], 17],
-  [2, 3, 3, 73, 73],
-  [2, 3, 5, 1621],
-  [2, 3, 11, 499],
-  [[-28], 46],
-]
+const MIKU = MIKO + MI * KO + MI * (KO - MI) + KO
+const UA =
+  'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36'
 
 function genRandomMd5(): string {
   const buf = Buffer.alloc(16)
@@ -31,23 +24,10 @@ function genRandomMd5(): string {
 }
 
 export function getSanityIdAt(timestamp: number) {
-  const mikoCode = BUTTER_CUP.map((x) => {
-    if (Array.isArray(x[0])) {
-      return x[0].reduce((a, b) => a * b, 1) + MIKO
-    } else {
-      return (x as number[]).reduce((a, b) => a * b, 1)
-    }
-  })
-    .map((x) =>
-      String(x)
-        .split('')
-        .reduce((a, b) => {
-          return String(
-            Number(a) * (MIKO - MI * KO) * KO + MIKO - KO + Number(b)
-          )
-        }, '0')
-    )
-    .join('')
+  // I tried but GenAI just does not seem to be imaginative
+  const mikoCode = atob(
+    'MzMzNzM2MzEzMzM2MzMzODM3MzUzMzM4MzQzNTM5MzgzOTMzMzgzODMzMzMzMTMyMzMzMTMwMzkzMTMxMzkzOTMyMzgzNDM3MzEzMTMyMzQzNDM4MzgzOTM0MzQzMTMwMzIzMTMwMzUzMTMxMzIzOTM3MzEzMDM4'
+  )
   const totp = new TOTP({
     algorithm: 'SHA1',
     period: 30,
@@ -60,36 +40,38 @@ export function getSanityIdAt(timestamp: number) {
 }
 
 function getSanityStatement() {
-  const clientTimeMs = Number(new Date())
-  const serverTimeTs = Math.floor(clientTimeMs / 1000 - 1)
-  const serverTimeMs = serverTimeTs * 1000
+  const timeMs = Number(new Date())
+  const totp = getSanityIdAt(timeMs)
   return {
     reason: 'init',
     productType: 'web-player',
-    totp: getSanityIdAt(clientTimeMs),
-    totpServer: getSanityIdAt(serverTimeMs),
-    totpVer: '5',
-    sTime: String(serverTimeTs),
-    cTime: String(clientTimeMs),
+    totp,
+    totpServer: totp,
+    totpVer: MIKU,
   }
 }
 
 export function getSanityToken(): Promise<string> {
   const sanityStatement = getSanityStatement()
-  const base = new URL(`${R2('open')}/get_access_token`)
+  const base = new URL(`${R2('open')}/api/token`)
   for (const [key, val] of Object.entries(sanityStatement)) {
     base.searchParams.set(key, val)
   }
   return fetch(base)
     .then((x) => x.json())
-    .then((x) => x.accessToken)
+    .then((x) => {
+      if (!x.accessToken) {
+        throw new Error('No sanity token')
+      }
+      return x.accessToken
+    })
 }
 
 function getClientToken(): Promise<string> {
   return fetch(`${R2('clienttoken')}/v1/clienttoken`, {
     method: 'POST',
     headers: {
-      'User-Agent': USER_AGENT,
+      'User-Agent': UA,
       Accept: 'application/json',
       'Accept-Language': 'en-US,en;q=0.5',
       'content-type': 'application/json',
@@ -138,45 +120,36 @@ class SpotifyUtils {
       'client-token': this.#clientToken,
       [`${R1('spot')}-app-version`]: CLIENT_VERSION,
       'app-platform': 'WebPlayer',
-      'User-Agent': USER_AGENT,
-      Pragma: 'no-cache',
-      'Cache-Control': 'no-cache',
+      'User-Agent': UA,
+      Referrer: REFERER,
+      Origin: REFERER,
     }
   }
 
-  #buildPathfinderQuery(
-    op: string,
-    uri: string,
-    offset: number,
-    limit: number
-  ) {
+  #buildFetchPlaylistQuery(uri: string, offset: number, limit: number) {
     const url = new URL(
-      [R2(['api', 'partner'].join('-')), 'pathfinder', 'v1', 'query'].join('/')
+      [R2(['api', 'partner'].join('-')), 'pathfinder', 'v2', 'query'].join('/')
     )
-    url.searchParams.set('operationName', op)
-    url.searchParams.set(
-      'variables',
-      JSON.stringify({
+    const body = {
+      extensions: {
+        persistedQuery: {
+          version: 1,
+          sha256Hash:
+            'bb67e0af06e8d6f52b531f97468ee4acd44cd0f82b988e15c2ea47b1148efc77',
+        },
+      },
+      operationName: 'fetchPlaylist',
+      variables: {
         uri,
         offset,
         limit,
         enableWatchFeedEntrypoint: false,
-      })
-    )
-    url.searchParams.set(
-      'extensions',
-      atob(
-        'eyJwZXJzaXN0ZWRRdWVyeSI6' + //
-          'eyJ2ZXJzaW9uIjoxLCJzaGEy' + //
-          'NTZIYXNoIjoiNzNlNTJhMjQ3Njc2Z' +
-          'mFlOTUzODU2NzQ3ZGQ3ZjQzYTE5Mz' +
-          'gzZjE5NjllOTcwYTJjNmQzMTM5M2Q' +
-          'yYjM1MTg3ZSJ9fQ=='
-      )
-    )
+      },
+    }
     return fetch(url, {
       headers: this.#buildRequestHeader(),
-      referrer: REFERER,
+      body: JSON.stringify(body),
+      method: 'POST',
     })
   }
 
@@ -186,17 +159,22 @@ class SpotifyUtils {
     const limit = 25
 
     while (offset < totalCount) {
-      const payload = await this.#buildPathfinderQuery(
-        'fetchPlaylist',
-        `spotify:playlist:${playlistId}`,
+      const payload = await this.#buildFetchPlaylistQuery(
+        `${R1('spot')}:playlist:${playlistId}`,
         offset,
         limit
-      ).then((x) => x.json())
+      ).then((x) => {
+        if (x.ok) {
+          return x.json()
+        }
+        throw x
+      })
+
       if (totalCount === Infinity) {
         totalCount = payload.data.playlistV2.content.totalCount
       }
       yield* payload.data.playlistV2.content.items
-      offset += 25
+      offset += limit
     }
   }
 
@@ -213,7 +191,6 @@ class SpotifyUtils {
       const artistNames = artists.items
         .map((x: any) => x.profile.name)
         .join(', ')
-      console.log([R2('open'), ...uri.split(':').slice(1)].join('/'))
       feed.addItem({
         id: uri,
         title: `${name} by ${artistNames}`,
